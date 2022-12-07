@@ -1,0 +1,27 @@
+commit-msg:
+  parallel: true
+  commands:
+    commitlint:
+      run: npx commitlint --edit
+
+pre-commit:
+  parallel: true
+  commands:
+    types:
+      glob: '*.{ts,vue}'
+      run: npx tsc
+    lint:
+      glob: '*.{ts,vue}'
+      run: yarn lint:fix {staged_files}
+    format:
+      glob: '*.{ts,vue}'
+      run: yarn format {staged_files}
+
+pre-push:
+  parallel: true
+  commands:
+    types:
+      glob: '*.{ts,vue}'
+      run: npx tsc --noEmit
+    build:
+      run: yarn build
